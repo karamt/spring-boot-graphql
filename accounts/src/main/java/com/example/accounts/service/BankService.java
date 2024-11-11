@@ -57,7 +57,7 @@ public class BankService {
 
     public Map<BankAccount, Client> getClientsforBankAccounts(List<BankAccount> accs) {
         Map<BankAccount, Client> clientsForAccount = new HashMap<>();
-        ;
+
         Client cl;
         for (BankAccount acc : accs) {
             cl = clients.stream().filter(c -> c.getAccountId().equals(acc.getId())).findFirst().orElse(null);
