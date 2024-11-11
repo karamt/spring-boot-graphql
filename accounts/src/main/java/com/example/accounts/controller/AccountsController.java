@@ -6,13 +6,11 @@ import com.example.accounts.domain.PersonInfo;
 import com.example.accounts.service.BankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
@@ -30,39 +28,41 @@ public class AccountsController {
         return accounts;
     }
 
+
+    /**
+     * Get Clients with N+1 Problem
+     */
+    @SchemaMapping(typeName = "BankAccount", field = "client")
+    Client getClient(BankAccount account) {
+        log.info("Getting client for " + account.getId());
+        return bankService.getClientByAccountId(account.getId());
+    }
+
+
+    /**
+     * Get Clients without N+1 Problem
+     *
+     * @BatchMapping(field = "client")
+     * Map<BankAccount, Client> getClient(List<BankAccount> accounts) {
+     * log.info("Getting client for accounts: " + accounts.size());
+     * return bankService.getClientsforBankAccounts(accounts);
+     * }
+     */
+
+
+    // Get PersonInfo with N+1 Problem
+    @SchemaMapping(typeName = "Client", field = "person")
+    PersonInfo getPersonInfo(Client client) {
+        log.info("Getting person for client: " + client.getId());
+        return bankService.getPersonInfoByClientId(client.getId());
+    }
+
 /**
- Get Clients with N+1 Problem
- @SchemaMapping(typeName = "BankAccount", field = "client")
- Client getClient (BankAccount account) {
- log.info("Getting client for " + account.getId());
- return bankService.getClientByAccountId(account.getId());
+ //    Get PersonInfo without N+1 Problem
+ @BatchMapping(field = "person")
+ Map<Client, PersonInfo> getPersonInfo(List<Client> clients) {
+ log.info("Getting person for client: " + clients.size());
+ return bankService.getPersonInfoforClients(clients);
  }
-
  */
-
-/**
- * Get Clients without N+1 Problem
- */
-@BatchMapping(field = "client")
-Map<BankAccount, Client> getClient(List<BankAccount> accounts) {
-    log.info("Getting client for accounts: " + accounts.size());
-    return bankService.getClientsforBankAccounts(accounts);
-}
-
-/**
- * Get PersonInfo with N+1 Problem
- *
- * @SchemaMapping(typeName = "Client", field = "personInfo")
- * PersonInfo getPersonInfo (Client client) {
- * log.info("Getting person for client: " + client.getId());
- * return bankService.getPersonInfoByClientId(client.getId());
- * }
- */
-
-//    Get PersonInfo without N+1 Problem
-@BatchMapping(field = "person")
-Map<Client, PersonInfo> getPersonInfo(List<Client> clients) {
-    log.info("Getting person for client: " + clients.size());
-    return bankService.getPersonInfoforClients(clients);
-}
 }
