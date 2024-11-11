@@ -5,9 +5,9 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class PersonInfo {
-    private String id;
-    private String clientId;
+public class Person {
+    private Long personId;
+    private Long clientId;
     private String firstName;
     private String middleName;
     private String lastName;

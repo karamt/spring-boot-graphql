@@ -1,22 +1,37 @@
 type Query {
-    accounts: [BankAccount]
+    accounts: [BankAccountType]
+    accountById (accountId : ID): BankAccountType
 }
 
-type BankAccount {
-    id: ID
-    client: Client
+type Mutation{
+   addAccount (account: BankAccountInput): Boolean
+    deleteAccount (accountId : ID): Boolean
+    editAccount(account: BankAccountInput): BankAccountType
+}
+
+type BankAccountType {
+    accountId: ID
+    client: ClientType
     currency: Currency
     balance: Float
     status: String
 }
 
-type Client {
-    id: ID
+input BankAccountInput {
+    accountId: ID
+    clientId: Int
+    currency: Currency
+    balance: Float
+    status: String
+}
+
+type ClientType {
+    clientId: ID
     person: Person
 }
 
 type Person{
-    id: ID
+    personId: ID
     firstName: String
     middleName: String
     lastName: String

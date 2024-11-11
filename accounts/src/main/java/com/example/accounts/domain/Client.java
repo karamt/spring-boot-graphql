@@ -6,7 +6,6 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class Client {
-    private String id;
-    private String accountId;
-    private String personInfoId;
+    private Long clientId;
+    private Long personId;
 }
