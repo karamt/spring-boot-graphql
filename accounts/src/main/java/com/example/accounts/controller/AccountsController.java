@@ -60,7 +60,7 @@ Map<BankAccount, Client> getClient(List<BankAccount> accounts) {
  */
 
 //    Get PersonInfo without N+1 Problem
-@BatchMapping(field = "personInfo")
+@BatchMapping(field = "person")
 Map<Client, PersonInfo> getPersonInfo(List<Client> clients) {
     log.info("Getting person for client: " + clients.size());
     return bankService.getPersonInfoforClients(clients);

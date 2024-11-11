@@ -12,6 +12,10 @@ type BankAccount {
 
 type Client {
     id: ID
+    person: PersonInfo
+}
+
+type PersonInfo{
     firstName: String
     middleName: String
     lastName: String
