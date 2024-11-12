@@ -98,7 +98,7 @@ public class BankService {
         if (repository.findById(accountId).isPresent()) {
             return repository.findById(accountId).get();
         }
-        throw new AccountNotFoundException("Account Not Found");
+        throw new AccountNotFoundException("Account Not Found: " + accountId);
     }
 
     public Boolean save(BankAccount account) {
@@ -106,7 +106,7 @@ public class BankService {
             repository.save(account);
             log.info("added account:" + account.toString());
         } else {
-            throw new ClientNotFoundException("Client Not Found");
+            throw new ClientNotFoundException("Client Not Found: " + account.getClientId());
         }
         return true;
     }
@@ -120,7 +120,7 @@ public class BankService {
         if (validAccount(account) && validClient(account)) {
             repository.save(account);
         } else {
-            throw new ClientNotFoundException("Client Not Found");
+            throw new ClientNotFoundException("Account and Client combination not Found:: Account ID: " + account.getAccountId() + " Client ID: " + account.getClientId());
         }
         return account;
     }
