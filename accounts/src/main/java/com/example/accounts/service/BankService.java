@@ -8,6 +8,7 @@ import com.example.accounts.exception.ClientNotFoundException;
 import com.example.accounts.repository.BankAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.ContextValue;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -38,8 +39,13 @@ public class BankService {
             new Person(3005L, 2005L, "Olivia", "Grace", "Johnson")
     );
 
-    public List<BankAccount> getAccounts() {
-        return repository.findAll();
+    public List<BankAccount> getAccounts(String accountStatus) {
+        if(accountStatus==null){
+            return repository.findAll();
+        } else{
+            return repository.findByStatus(accountStatus);
+        }
+
     }
 
     public List<Person> getPersons() {
@@ -130,6 +136,6 @@ public class BankService {
     }
 
     private boolean validAccount(BankAccount account) {
-        return getAccounts().stream().filter(a->a.getAccountId().equals(account.getAccountId())).findAny().isPresent();
+        return getAccounts("").stream().filter(a->a.getAccountId().equals(account.getAccountId())).findAny().isPresent();
     }
 }
