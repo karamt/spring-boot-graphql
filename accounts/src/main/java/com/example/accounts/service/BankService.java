@@ -23,11 +23,11 @@ public class BankService {
     BankAccountRepository repository;
 
     private static List<Client> clients = Arrays.asList(
-            new Client(2001L, 3001L),
-            new Client(2002L, 3002L),
-            new Client(2003L, 3003L),
-            new Client(2004L, 3004L),
-            new Client(2005L, 3005L)
+            new Client(2001L, 3001L,"IN"),
+            new Client(2002L, 3002L,"IN"),
+            new Client(2003L, 3003L,"IN"),
+            new Client(2004L, 3004L,"IN"),
+            new Client(2005L, 3005L,"IN")
     );
 
     private static List<Person> persons = Arrays.asList(

@@ -1,3 +1,7 @@
+scalar CountryCode
+scalar DateTime
+scalar PositiveFloat
+
 type Query {
     accounts: [BankAccountType]
     accountById (accountId : ID): BankAccountType
@@ -13,20 +17,27 @@ type BankAccountType {
     accountId: ID
     client: ClientType
     currency: Currency
+    country: CountryCode
     balance: Float
     status: String
+    transferLimit: PositiveFloat
+    accountCreationDate: String
 }
 
 input BankAccountInput {
     accountId: ID
     clientId: Int
     currency: Currency
+    country: CountryCode
     balance: Float
     status: String
+    transferLimit: PositiveFloat    # An Float scalar that MUST be greater than zero.
+    accountCreationDate: DateTime   # Accepts string values like 1996-12-19T16:39:57-08:00 and produces java.time.OffsetDateTime
 }
 
 type ClientType {
     clientId: ID
+    country: CountryCode            # accepts ISO Country Codes
     person: Person
 }
 
